@@ -90,4 +90,32 @@ document.addEventListener("DOMContentLoaded", function (){
             // Expresiones
             break;
     }
+
+    // Estructuras de Ciclos o Iteraciones.
+    for (let i=0; i<10; i++){
+        console.log("Iteracion for: ", i);
+    }
+    let intWhile = 10;
+    while ( intWhile >= 0){
+        console.log("Iteracion while: ", intWhile);
+        intWhile -= 1;
+    }
+
+    let intDoWhile = 50;
+    do {
+        console.log("Iteración Do While", intDoWhile);
+        intDoWhile--;
+    } while (intDoWhile < 10);
+
+    const arrColores = ["red","blue","green", 123, 255];
+
+    arrColores.forEach(
+        (color)=>{
+            console.log("Color Iterando: ", color);
+        }
+    );
+
+    const miSlider = new SliderController();
+
 });
+
