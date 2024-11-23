@@ -116,3 +116,68 @@ const demoPlanEstudio = [
         ]
     }
 ];
+
+
+class PlanDeEstudio{
+    planDeEstudio=[];
+    container = null;
+    constructor( planDeEstudio, containerSelector = "main"){
+        if (!planDeEstudio) {
+            throw new Error("Plan de Estudio es requerido.");
+        }
+        const tmpContainer = document.querySelector(containerSelector);
+        if (!tmpContainer) {
+            throw new Error("El contenedor no se encuentra");
+        }
+        this.planDeEstudio = planDeEstudio;
+        this.container = tmpContainer;
+        this.generateUI();
+    }
+    generateUI(){
+        this.container.classList.add('plan');
+        this.planDeEstudio.forEach( (bloque) => {
+            this.container.appendChild(
+                this.generateBloque(bloque)
+            );
+        } );
+
+    }
+    generateBloque(bloque){
+        const bloqueUI = document.createElement("SECTION");
+        bloqueUI.classList.add('bloque');
+        bloqueUI.setAttribute("id", `blq_${bloque.id}`);
+        
+        const bloqueLabel = document.createElement("DIV");
+        bloqueLabel.classList.add('label');
+        bloqueLabel.innerHTML = bloque.bloque;
+        bloqueUI.appendChild(bloqueLabel);
+
+        const asignaturas = document.createElement("DIV");
+        asignaturas.classList.add('asignaturas');
+        bloque.asignaturas.forEach(
+            (asignatura)=>{
+                asignaturas.appendChild(this.generateAsignatura(asignatura));
+            }
+        );
+        bloqueUI.appendChild(asignaturas);
+        return bloqueUI;
+    }
+
+    generateAsignatura(asignatura){
+        const asignaturaUI = document.createElement("DIV");
+        asignaturaUI.classList.add('asignatura');
+        asignaturaUI.setAttribute('id', asignatura.id);
+        if(asignatura.requisitos){
+            asignaturaUI.setAttribute(
+                'data-requisitos',
+                JSON.stringify(asignatura.requisitos)
+            );
+        }
+        asignaturaUI.innerHTML = `<strong>${asignatura.nombre}
+            <br/>(${asignatura.id})
+            </strong>
+            <br/>
+            Créditos: ${asignatura.creditos}`;
+        return asignaturaUI;
+    }
+}
