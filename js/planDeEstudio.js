@@ -133,6 +133,7 @@ class PlanDeEstudio{
         this.container = tmpContainer;
         this.generateUI();
     }
+
     generateUI(){
         this.container.classList.add('plan');
         this.planDeEstudio.forEach( (bloque) => {
@@ -146,7 +147,6 @@ class PlanDeEstudio{
         const bloqueUI = document.createElement("SECTION");
         bloqueUI.classList.add('bloque');
         bloqueUI.setAttribute("id", `blq_${bloque.id}`);
-        
         const bloqueLabel = document.createElement("DIV");
         bloqueLabel.classList.add('label');
         bloqueLabel.innerHTML = bloque.bloque;
