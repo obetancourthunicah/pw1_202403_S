@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokedex</title>
+    <script>
+        document.addEventListener('DOMContentLoaded', ()=>{
+            // Asynchronous Javascript And XML
+            fetch('https://pokeapi.co/api/v2/pokemon?limit=50&offset=0')
+            .then(response=>response.json())
+            .then(data=>{
+                let htmlBuffer = [];
+                data.results.forEach(pokemon=>{
+                    let id = pokemon.url.split('/')[6];
+                    let registro = `<tr><td>${id}</td><td>${pokemon.name}</td><td><a href="${pokemon.url}">Ver</a></td></tr>`;
+                    htmlBuffer.push(registro);
+                });
+                document.getElementById("pokeList").innerHTML = htmlBuffer.join('');
+            })
+            .catch(err=>console.log(err));
+
+        });
+    </script>
+</head>
+<body>
+    <head>
+        <div><h1>https://pokeapi.co/</h1></div>
+        <nav>
+            <ul>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
+        </nav>
+    </head>
+    <main>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="pokeList">
+                
+            </tbody>
+        </table>
+    </main>
+</body>
+</html>
