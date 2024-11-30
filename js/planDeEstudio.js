@@ -121,6 +121,7 @@ const demoPlanEstudio = [
 class PlanDeEstudio{
     planDeEstudio=[];
     container = null;
+    asignaturas = {};
     constructor( planDeEstudio, containerSelector = "main"){
         if (!planDeEstudio) {
             throw new Error("Plan de Estudio es requerido.");
@@ -178,6 +179,52 @@ class PlanDeEstudio{
             </strong>
             <br/>
             Créditos: ${asignatura.creditos}`;
+
+        asignaturaUI.addEventListener('mouseenter', (e)=>{
+            asignaturaUI.classList.add('selected');
+            const requisitos = JSON.parse(asignaturaUI.dataset.requisitos || '[]');
+            const apertura = JSON.parse(asignaturaUI.dataset.apertura || '[]');
+            requisitos.forEach((req)=>{
+                this.asignaturas[req].classList.add("requisito");
+            });
+            apertura.forEach((apt)=>{
+                this.asignaturas[apt].classList.add("apertura");
+            });
+        });
+        asignaturaUI.addEventListener('mouseleave', (e)=>{
+            asignaturaUI.classList.remove('selected');
+            const requisitos = JSON.parse(asignaturaUI.dataset.requisitos || '[]');
+            const apertura = JSON.parse(asignaturaUI.dataset.apertura || '[]');
+            requisitos.forEach((req)=>{
+                this.asignaturas[req].classList.remove("requisito");
+            });
+            apertura.forEach((apt)=>{
+                this.asignaturas[apt].classList.remove("apertura");
+            });
+        });
+        if(asignatura.requisitos){
+            asignatura.requisitos.forEach((req)=>{
+                if(this.asignaturas[req]){
+                    /*
+                    const apertura = JSON.parse(
+                        this.asignaturas[req].getAttribute ('data-apertura')||'[]'
+                    );
+                    */
+                    const apertura = JSON.parse(
+                        this.asignaturas[req].dataset.apertura || '[]'
+                    );
+                    if( !apertura.includes(asignatura.id)){
+                        apertura.push(asignatura.id);
+                    }
+                    this.asignaturas[req].setAttribute(
+                        'data-apertura',
+                        JSON.stringify(apertura)
+                    );
+                }
+            });
+        }
+
+        this.asignaturas[asignatura.id] = asignaturaUI;
         return asignaturaUI;
     }
 }
